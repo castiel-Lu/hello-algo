@@ -60,13 +60,26 @@ def remove(n0: ListNode):
     n1.prev = p
 
 
+# 查找某个节点后index的值
 def access(head: ListNode, index: int) -> ListNode:
+    # 要找后几个，就循环几次，将指针挪到所要找的目标位置
     for _ in range(index):
+        # 从head节点开始往后找
+        # 如果head节点不存在，直接返回None
         if not head:
             return None
         head = head.next
     return head
 
+# 查找目标，从head处开始找，head节点必须是存在的节点
+def find(head: ListNode, target: int) -> int:
+    index = 0
+    while head:
+        if head.val == target:
+            return index
+        head = head.next
+        index += 1
+    return -1
 
 if __name__ == '__main__':
     n0 = ListNode(1)
@@ -85,7 +98,8 @@ if __name__ == '__main__':
     n4.prev = n3
     n4.next = None
 
-    # 查找
+    # 访问目标
+    print("访问目标检查：")
     node = access(n0, 3)
     # 打印n0后3个的节点的值，即n3
     print("n0后3个节点的值为{}".format(node.val))
@@ -94,33 +108,42 @@ if __name__ == '__main__':
     # 打印n0后2个的节点的值，即n2
     print("n0后2个节点的值为{}".format(node.prev.val))
 
+    print()
+
+    # 查找目标，返回相对于输入首节点的位置
+    print("查找目标检查：")
+    index = find(n0, 4)
+    print("目标值4为n0后{}位".format(index))
+
+    print()
+
     # 插入n
-    print("末尾插入前")
+    print("末尾插入前：")
     nx = ListNode(100)
     # 先看下n1及其前后的值(n0和n2)
     print("n4的值为{}".format(n4.val))
     print("n4前一个节点的值，这里是n3为{}".format(n4.prev.val))
     print("n4后一个节点的值，这里是None为{}".format(n4.next))
-
+    print()
     # 在n1后插入nx
     insert(n4,nx)
-    print("末尾插入后")
+    print("末尾插入后：")
     # 在看下n1及其前后的值(n0和nx)
     print("n4的值为{}".format(n4.val))
     print("n4前一个节点的值，这里是n3为{}".format(n4.prev.val))
     print("n4后一个节点的值，这里是nx为{}".format(n4.next.val))
     # print("n2前一个节点的值，这里是nx为{}".format(n2.prev.val))
-
+    print()
     # 删除nx
-    print("删除末尾插入的nx")
+    print("删除末尾插入的nx：")
     remove(nx)
     print("n4的值为{}".format(n4.val))
     # print("n4前一个节点的值，这里是n0为{}".format(n1.prev.val))
     print("n4后一个节点的值，这里是None为{}".format(n4.next))
-
+    print()
     # 往n0前插入nx
     insert(n0,nx,reverse=True)
-    print("在n0前插入值后")
+    print("在n0前插入值后：")
     # 在看下n0及其前后的值(n0和nx)
     print("n0的值为{}".format(n0.val))
     print("n0前一个节点的值，这里是nx为{}".format(n0.prev.val))
@@ -128,10 +151,10 @@ if __name__ == '__main__':
     print("nx前一个节点的值，这里是None为{}".format(nx.prev))
 
     remove(nx)
-
+    print()
     # 往n4前插入nx
     insert(n4,nx,reverse=True)
-    print("在n4前插入值nx后")
+    print("在n4前插入值nx后：")
     # 在看下n0及其前后的值(n0和nx)
     print("n4的值为{}".format(n4.val))
     print("n4前一个节点的值，这里是nx为{}".format(n4.prev.val))
